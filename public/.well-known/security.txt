@@ -1,0 +1,4 @@
+Contact: mailto:service@softmusk.com
+Expires: 2027-10-10T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.softmusk.com/.well-known/security.txt

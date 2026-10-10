@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+/* Stacked sticky sections only where the viewport is big enough to show a whole card. */
+@custom-variant stack (@media (min-width: 1024px) and (min-height: 760px));
+
+@layer base {
+  :root {
+    --background: oklch(0.99 0.002 260);
+    --foreground: oklch(0.14 0.01 260);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.14 0.01 260);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.14 0.01 260);
+
+    /* === SOFTMUSK BRAND PALETTE (from logo) ===
+       Logo: Electric Blue #0ABFFF → #1D7CE0, Near-Black #1C1C1E
+    */
+    --primary: #1D7CE0;
+    --primary-light: #0ABFFF;
+    --primary-foreground: #ffffff;
+    --primary-hover: #1568C8;
+    --primary-gradient-start: #0ABFFF;
+    --primary-gradient-end: #1D7CE0;
+
+    --secondary: #1C1C1E;
+    --secondary-foreground: #ffffff;
+
+    --muted: oklch(0.96 0.004 260);
+    --muted-foreground: oklch(0.52 0.015 260);
+    --accent: oklch(0.96 0.004 260);
+    --accent-foreground: oklch(0.25 0.01 260);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0.004 260);
+    --input: oklch(0.922 0.004 260);
+    --ring: #369ff6;
+    --radius: 10px;
+
+    /* Layout Variables */
+    --navbar-height: 80px;
+  }
+
+  .dark {
+    --background: oklch(0.13 0.01 260);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.18 0.01 260);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.18 0.01 260);
+    --popover-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.22 0.01 260);
+    --muted-foreground: oklch(0.65 0.01 260);
+    --accent: oklch(0.22 0.01 260);
+    --accent-foreground: oklch(0.985 0 0);
+    --border: oklch(0.28 0.01 260);
+    --input: oklch(0.28 0.01 260);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: rgba(10, 191, 255, 0.25);
+  }
+
+  /* Anchor targets land below the fixed navbar */
+  [id] {
+    scroll-margin-top: 96px;
+  }
+
+  /* Visible keyboard focus everywhere (mouse clicks stay clean) */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+
+  /* Force global 10px border radius for all elements except rounded-full */
+  --radius-sm: 10px;
+  --radius-md: 10px;
+  --radius-lg: 10px;
+  --radius-xl: 10px;
+  --radius-2xl: 10px;
+  --radius-3xl: 10px;
+}
+
+/* =============================================
+   Common Global Utility Classes
+   Extracted from Genesys / PFWCI references
+   ============================================= */
+
+.premium-gradient-text {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.premium-gradient-bg {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+}
+
+.premium-glass {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.premium-shadow {
+  box-shadow: 0 10px 40px -10px rgba(29, 124, 224, 0.25);
+}
+
+/* =============================================
+   Marquee Animation (from Genesys TrustMarquee)
+   ============================================= */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* =============================================
+   Section scroll reveal (pfwci pattern)
+   ============================================= */
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Slow cinematic zoom for hero imagery */
+@keyframes ken-burns {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.14); }
+}
+
+.ken-burns {
+  animation: ken-burns 9s ease-out forwards;
+}
+
+/* === LENIS SMOOTH SCROLL REQUIRED CSS === */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Hide the page scrollbar (wheel, touch, keyboard and Lenis scrolling still work) */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+/* Hero scroll cue: a light pulse running down a hairline */
+@keyframes scroll-cue {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+.scroll-cue {
+  animation: scroll-cue 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}
