@@ -1,3 +1,5 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbs } from "@/lib/schema";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -9,5 +11,10 @@ export const metadata = pageMetadata({
 });
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <JsonLd data={breadcrumbs([{ name: "Apply for an Internship", path: "/internship-registration" }])} />
+      {children}
+    </>
+  );
 }

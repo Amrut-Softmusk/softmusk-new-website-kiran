@@ -12,6 +12,8 @@ import {
 import { DotExpandButton } from "@/components/ui/DotExpandButton";
 import { HomeHero } from "@/components/home/HomeHero";
 import { CountUpNumber } from "@/components/ui/CountUpNumber";
+import { FaqSection } from "@/components/seo/FaqSection";
+import { HOME_FAQS } from "@/lib/faqs";
 
 // =====================================================================
 // ANIMATION VARIANTS — Genesys + pfwci extracted patterns
@@ -565,6 +567,12 @@ export default function HomePage() {
       <MissionSection />
       <PortfolioMarqueeSection />
       <TestimonialsSection />
+      <FaqSection
+        id="faq"
+        faqs={HOME_FAQS}
+        title="Softmusk at a glance"
+        intro="Quick answers about who we are, where we are and what we build."
+      />
       <CTASection />
     </div>
   );

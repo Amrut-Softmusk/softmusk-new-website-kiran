@@ -11,11 +11,11 @@ import { DomainStickyScroll } from "@/components/ui/DomainStickyScroll";
 import { FaReact, FaAws, FaDocker, FaFigma } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss, SiPostgresql, SiGithubactions } from "react-icons/si";
 import { MdOutlineSensors } from "react-icons/md";
+import { INTERNSHIP_TRACKS } from "@/lib/programs";
 
 const domainData = [
   {
-    title: "React & IIoT Hardware",
-    description: "Build robust frontend architectures using React and integrate them directly with Industrial IoT (IIoT) sensors via WebSockets. You won't just build UI; you will build interfaces that control physical hardware in real-time.",
+    ...INTERNSHIP_TRACKS[0],
     image: "/images/domains/react_iiot.jpg",
     tools: [
       { id: "react", name: "React", icon: FaReact, color: "#61DAFB", position: { left: "30%", top: "30%" } },
@@ -26,8 +26,7 @@ const domainData = [
     ]
   },
   {
-    title: "Next.js Full-Stack",
-    description: "Master server-side rendering, secure API routes, and robust authentication boundaries. Connect your robust frontend to a heavily optimized PostgreSQL database using Prisma ORM.",
+    ...INTERNSHIP_TRACKS[1],
     image: "/images/domains/nextjs_postgres.jpg",
     tools: [
       { id: "next", name: "Next.js", icon: SiNextdotjs, color: "#ffffff", position: { left: "50%", top: "30%" } },
@@ -38,8 +37,7 @@ const domainData = [
     ]
   },
   {
-    title: "Cloud & DevOps",
-    description: "Your code doesn't matter if it can't run in production. Containerize your applications using Docker, build robust CI/CD pipelines, and deploy globally across AWS Infrastructure.",
+    ...INTERNSHIP_TRACKS[2],
     image: "/images/domains/cloud_devops.jpg",
     tools: [
       { id: "docker", name: "Docker", icon: FaDocker, color: "#2496ED", position: { left: "20%", top: "50%" } },
@@ -53,8 +51,7 @@ const domainData = [
     ]
   },
   {
-    title: "UI/UX Product Design",
-    description: "Design isn't just making things look pretty. Build comprehensive design systems in Figma, sync them with Tailwind CSS tokens, and ensure engineering handoffs are absolutely seamless.",
+    ...INTERNSHIP_TRACKS[3],
     image: "/images/domains/ui_ux.jpg",
     tools: [
       { id: "figma", name: "Figma", icon: FaFigma, color: "#F24E1E", position: { left: "30%", top: "50%" } },

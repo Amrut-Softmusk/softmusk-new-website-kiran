@@ -14,6 +14,8 @@ import {
   CheckCircle2,
   Sparkles
 } from "lucide-react";
+import { FaqSection } from "@/components/seo/FaqSection";
+import { PRODUCTS_FAQS } from "@/lib/faqs";
 
 // ─── Products Catalog Data ──────────────────────────────────────────
 
@@ -344,6 +346,7 @@ export default function ProductsPage() {
         );
       })}
 
+      <FaqSection id="faq" faqs={PRODUCTS_FAQS} title="Products: common questions" intro="ERP, POS and billing software built in Belagavi for Indian businesses." />
     </div>
   );
 }

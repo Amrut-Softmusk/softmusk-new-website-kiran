@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "How the Softmusk website handles your information.",
-  alternates: { canonical: "/privacy" },
-};
+  description: "How the Softmusk website handles your information: no tracking cookies or analytics; form enquiries are emailed to our team and not stored on the website.",
+  path: "/privacy",
+});
 
 const SECTIONS = [
   {
@@ -13,11 +13,11 @@ const SECTIONS = [
   },
   {
     title: "Forms and email",
-    body: "The contact, workshop, internship and careers forms do not store anything on our servers. When you submit one, your own email app opens with a pre-filled message addressed to Softmusk. Nothing is sent until you press send in your email app, and only what you choose to send reaches us.",
+    body: "When you submit the contact, demo, workshop, internship or careers form, the details you enter (and a CV, if you attach one) are sent to the Softmusk inbox by email through our email delivery provider, EmailJS. The website itself does not keep a copy in a database. If sending fails, the form offers to open your own email app instead.",
   },
   {
     title: "How we use what you send",
-    body: "We use the details in your email only to reply to you and to handle your enquiry, application or workshop request. We do not sell or share your information with third parties for marketing.",
+    body: "We use the details you send only to reply to you and to handle your enquiry, application or workshop request. We do not sell or share your information with third parties for marketing.",
   },
   {
     title: "Cookies",
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
         <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1D7CE0] mb-4">Legal</p>
         <h1 className="text-4xl md:text-5xl font-heading font-black text-slate-900 tracking-tight mb-6">Privacy Policy</h1>
         <p className="text-slate-600 text-lg leading-relaxed mb-12">
-          Short version: this is a static website. We don&apos;t track you, and we only see what you email to us.
+          Short version: we don&apos;t track you, and we only see what you send us through a form or by email.
         </p>
 
         <div className="space-y-10">

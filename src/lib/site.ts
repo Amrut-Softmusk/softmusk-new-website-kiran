@@ -33,6 +33,8 @@ export const SITE = {
     "Softmusk Info Pvt Ltd",
     "software company in Belagavi",
     "IT company in Belagavi",
+    "software company in Belgaum",
+    "IT company in Belgaum",
     "software development Belgaum",
     "web development company Belagavi",
     "ERP software Karnataka",

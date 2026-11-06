@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { DotExpandButton } from "@/components/ui/DotExpandButton";
 import { CountUpNumber } from "@/components/ui/CountUpNumber";
+import { FaqSection } from "@/components/seo/FaqSection";
+import { SERVICES_FAQS } from "@/lib/faqs";
 
 // ─── Animation Variants ───────────────────────────────────────────────────────
 
@@ -429,6 +431,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      <FaqSection id="faq" faqs={SERVICES_FAQS} title="IT services: common questions" intro="What we do, who we work with and how to get started." />
     </div>
   );
 }
