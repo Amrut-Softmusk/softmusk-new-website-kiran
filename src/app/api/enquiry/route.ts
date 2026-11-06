@@ -1,9 +1,15 @@
-import { Resend } from "resend";
 import { SITE } from "@/lib/site";
 import { CV_TYPES, ENQUIRY_KINDS, HONEYPOT_FIELD, LIMITS, type EnquiryKind } from "@/lib/enquiry";
 
-// Website form → email to the Softmusk inbox via Resend.
-// Env: RESEND_API_KEY (required), ENQUIRY_FROM (a sender on a domain verified in Resend), ENQUIRY_TO (optional).
+// Website form → email to the Softmusk inbox via EmailJS (called from the server, so keys stay secret).
+// Env: EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, EMAILJS_PRIVATE_KEY (required),
+// ENQUIRY_TO (optional), EMAILJS_ATTACHMENT_MAX_KB (optional, 0 = CV uploads off).
+
+const CV_MIME: Record<string, string> = {
+  ".pdf": "application/pdf",
+  ".doc": "application/msword",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+};
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -110,26 +116,37 @@ export async function POST(req: Request) {
   const fields = parseFields(get("fields"));
   if (!fields) return fail("Invalid submission.");
 
-  const attachments: { filename: string; content: Buffer }[] = [];
+  const serviceId = process.env.EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+  if (!serviceId || !templateId || !publicKey || !privateKey) {
+    console.error("[enquiry] EMAILJS_SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY / PRIVATE_KEY is not set");
+    return fail("Online sending is not available right now.", 503);
+  }
+  const to = process.env.ENQUIRY_TO || SITE.email;
+  // EmailJS free plan has no attachments; paid plans allow a few hundred KB and up.
+  const maxAttachmentBytes = Math.max(0, Number(process.env.EMAILJS_ATTACHMENT_MAX_KB) || 0) * 1024;
+
+  let attachment: { name: string; dataUrl: string } | null = null;
   const cv = form.get("cv");
   if (cv instanceof File && cv.size > 0) {
     if (kind !== "careers") return fail("Invalid submission.");
     const ext = cv.name.slice(cv.name.lastIndexOf(".")).toLowerCase();
     if (!CV_TYPES.includes(ext)) return fail("CV must be a PDF or Word document.");
     if (cv.size > LIMITS.cvBytes) return fail("CV is too large (max 4 MB).");
+    if (cv.size > maxAttachmentBytes) {
+      return fail(
+        maxAttachmentBytes
+          ? `CV is too large to upload here (max ${Math.floor(maxAttachmentBytes / 1024)} KB). Remove it and paste a link to your CV instead, or email it to ${to}.`
+          : `CV upload is not available right now. Remove the file and paste a link to your CV instead, or email it to ${to}.`,
+      );
+    }
     const buf = Buffer.from(await cv.arrayBuffer());
     if (!isDocument(buf)) return fail("CV must be a PDF or Word document.");
     const safeName = cv.name.replace(/[^\w.\- ]+/g, "_").slice(-100) || `cv${ext}`;
-    attachments.push({ filename: safeName, content: buf });
+    attachment = { name: safeName, dataUrl: `data:${CV_MIME[ext]};base64,${buf.toString("base64")}` };
   }
-
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.ENQUIRY_FROM;
-  if (!apiKey || !from) {
-    console.error("[enquiry] RESEND_API_KEY or ENQUIRY_FROM is not set");
-    return fail("Online sending is not available right now.", 503);
-  }
-  const to = process.env.ENQUIRY_TO || SITE.email;
 
   const rows = fields
     .map(
@@ -143,22 +160,55 @@ export async function POST(req: Request) {
     `<h2 style="margin:0 0 4px;color:#1D7CE0">${escapeHtml(KIND_LABEL[kind])}</h2>` +
     `<p style="margin:0 0 16px;color:#64748b;font-size:13px">From the ${escapeHtml(SITE.name)} website. Reply to this email to answer the sender.</p>` +
     `<table style="border-collapse:collapse;width:100%;font-size:14px">${rows}</table>` +
-    (attachments.length ? `<p style="color:#64748b;font-size:13px">CV attached.</p>` : "") +
+    (attachment ? `<p style="color:#64748b;font-size:13px">CV attached.</p>` : "") +
     `</div>`;
-  const text = `${KIND_LABEL[kind]}\n\n${fields.map(([l, v]) => `${l}: ${v}`).join("\n\n")}`;
+  // Named values for the "Contact Us" template; every form maps onto the same variables.
+  const NAME_RE = /^name$|contact person/i;
+  const PHONE_RE = /phone/i;
+  const pick = (re: RegExp) => fields.find(([label]) => re.test(label))?.[1] ?? "";
+  const senderName = pick(NAME_RE);
+  // Forms without a "Requirement(s)" box (careers, internship, workshop) put all their details in {{message}}.
+  const message =
+    pick(/^requirements?$/i) ||
+    fields
+      .filter(([label]) => !NAME_RE.test(label) && !/^email$/i.test(label) && !PHONE_RE.test(label))
+      .map(([label, value]) => `${label}: ${value}`)
+      .join("\n");
 
+  // Server-side call to the EmailJS REST API (needs "Allow EmailJS API for non-browser applications").
+  // Template variables: {{title}} {{name}} {{email}} {{phone}} {{company}} {{service}} {{subject}} {{message}} {{kind}};
+  // also {{to_email}} {{reply_to}} {{from_name}} and {{{message_html}}} (every field as a table).
+  // CV: a Variable Attachment with parameter name "cv_file" and filename {{cv_name}}.
   try {
-    const { error } = await new Resend(apiKey).emails.send({
-      from,
-      to: [to],
-      replyTo,
-      subject: `[Website] ${subject}`,
-      html,
-      text,
-      attachments: attachments.length ? attachments : undefined,
+    const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(15_000),
+      body: JSON.stringify({
+        service_id: serviceId,
+        template_id: templateId,
+        user_id: publicKey,
+        accessToken: privateKey,
+        template_params: {
+          to_email: to,
+          reply_to: replyTo,
+          from_name: oneLine(senderName, 100) || replyTo,
+          title: subject,
+          subject,
+          kind: KIND_LABEL[kind],
+          name: senderName,
+          email: replyTo,
+          phone: pick(PHONE_RE),
+          company: pick(/company|institution/i),
+          service: pick(/service/i),
+          message,
+          message_html: html,
+          ...(attachment ? { cv_name: attachment.name, cv_file: attachment.dataUrl } : {}),
+        },
+      }),
     });
-    if (error) {
-      console.error("[enquiry] Resend error:", error.name, error.message);
+    if (!res.ok) {
+      console.error("[enquiry] EmailJS error:", res.status, (await res.text()).slice(0, 300));
       return fail("Could not send right now.", 502);
     }
   } catch (err) {
