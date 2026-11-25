@@ -89,8 +89,7 @@ export function PublicNavbar() {
           <div className="flex justify-between items-center h-[50px] relative">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 shrink-0 rounded-[10px]" aria-label="Softmusk home">
-              <Image src="/logo.png" alt="" width={40} height={42} priority className="h-10 w-auto object-contain drop-shadow-sm" />
-              <span className="font-heading font-black text-2xl tracking-tight text-slate-900">Softmusk</span>
+              <Image src="/softmusk-logo.png" alt="Softmusk Info Pvt. Ltd." width={720} height={226} priority className="h-11 md:h-12 w-auto object-contain" />
             </Link>
 
             {/* Centre links (desktop) */}
@@ -180,8 +179,7 @@ export function PublicNavbar() {
             >
               <div className="flex items-center justify-between p-6 border-b border-slate-100">
                 <Link href="/" className="flex items-center gap-2" onClick={closeMenu}>
-                  <Image src="/logo.png" alt="" width={32} height={34} className="h-8 w-auto object-contain" />
-                  <span className="font-heading font-black text-xl tracking-tight text-slate-900">Softmusk</span>
+                  <Image src="/softmusk-logo.png" alt="Softmusk Info Pvt. Ltd." width={720} height={226} className="h-10 w-auto object-contain" />
                 </Link>
                 <button
                   ref={closeRef}

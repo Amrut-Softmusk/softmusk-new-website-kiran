@@ -26,6 +26,8 @@ function build() {
 
 > ${SITE.description}
 
+${SITE.about}
+
 ${SITE.name} (${SITE.legalName}) is an IT services and software products company based in Belagavi (also spelt Belgaum), Karnataka, India. It serves clients across India and abroad, and trains students through internships and campus workshops.
 
 ## Contact

@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   return [
-    page("/", 1, "weekly", ownImages("/logo.png")),
+    page("/", 1, "weekly", ownImages("/softmusk-logo.png", "/logo.png")),
     page("/services", 0.9),
     page("/products", 0.9, "monthly", ownImages(...Object.values(productsData).map((p) => p.heroImage))),
     page("/contact", 0.9),

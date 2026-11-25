@@ -61,17 +61,14 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
           {/* Brand */}
           <div className="sm:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-3 mb-6 group rounded-[10px]">
-              <span className="relative w-12 h-12 flex items-center justify-center bg-white/5 rounded-[10px] border border-white/10 group-hover:border-cyan-500/50 transition-colors shadow-lg overflow-hidden">
-                <Image src="/logo.png" alt="" width={32} height={34} className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
-              </span>
-              <span className="font-heading font-black text-2xl tracking-tight text-white group-hover:text-cyan-400 transition-colors">
-                Softmusk
-              </span>
+            <Link
+              href="/"
+              aria-label="Softmusk home"
+              className="inline-flex mb-6 rounded-[12px] bg-white px-4 py-3 shadow-lg ring-1 ring-white/10 hover:ring-cyan-500/50 transition"
+            >
+              <Image src="/softmusk-logo.png" alt="Softmusk Info Pvt. Ltd." width={720} height={226} className="h-14 w-auto object-contain" />
             </Link>
-            <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-sm mb-8">
-              Enterprise engineering meets technical excellence. We build cutting-edge software and empower the next generation of tech leaders.
-            </p>
+            <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-sm mb-8">{SITE.about}</p>
 
             <address className="not-italic space-y-3 mb-8">
               {CONTACT_LINKS.map(({ icon: Icon, label, href, external }) => (

@@ -7,6 +7,9 @@ export const SITE = {
   title: "Softmusk Info Pvt. Ltd. | IT & Software Company in Belagavi",
   description:
     "Softmusk Info Pvt. Ltd. is an IT & software company in Belagavi, Karnataka — custom software, ERP, web apps, Cloud & DevOps, IIoT solutions, IT training and internships.",
+  about:
+    "Softmusk Info Pvt Ltd is an IT and software company providing software development, ERP, Cloud & DevOps, IoT and digital solutions.",
+  slogan: "Serving IT to Serve You",
   foundingYear: "2006",
   email: "service@softmusk.com",
   phone: "+918971020906",
