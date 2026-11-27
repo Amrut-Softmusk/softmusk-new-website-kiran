@@ -125,7 +125,7 @@ export default function ProductsPage() {
     <div className="w-full bg-slate-950 text-white relative">
 
       {/* ═══════ HERO SECTION (First Sticky Layer) ═══════ */}
-      <section className="stack:sticky stack:top-0 stack:h-screen min-h-[100svh] w-full flex items-center justify-center overflow-hidden bg-slate-950 z-0">
+      <section className="stack:sticky stack:top-0 stack:h-screen min-h-[85svh] sm:min-h-[100svh] w-full flex items-center justify-center overflow-hidden bg-slate-950 z-0">
         {/* Ambient Glows */}
         <div aria-hidden="true" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-full h-[400px] bg-blue-600/10 blur-[140px] rounded-full pointer-events-none" />
         <div
@@ -253,7 +253,7 @@ export default function ProductsPage() {
                           className="w-4 h-4 shrink-0"
                           style={{ color: product.color }}
                         />
-                        <span className="text-xs font-semibold text-slate-200 truncate">
+                        <span className="text-xs font-semibold text-slate-200 sm:truncate">
                           {item}
                         </span>
                       </li>
@@ -261,14 +261,14 @@ export default function ProductsPage() {
                   </ul>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
                     {product.externalUrl ? (
                       <>
                         <a
                           href={product.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-[10px] font-bold text-xs tracking-wider transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-[10px] font-bold text-xs tracking-wider transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
                           style={{
                             backgroundColor: product.color,
                             color: "#0f172a"
@@ -280,7 +280,7 @@ export default function ProductsPage() {
                         </a>
                         <Link
                           href={product.detailUrl}
-                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-[10px] font-bold text-xs tracking-wider text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300"
+                          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-[10px] font-bold text-xs tracking-wider text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300"
                         >
                           <span>View Details</span>
                           <span className="sr-only">: {product.name}</span>
@@ -290,7 +290,7 @@ export default function ProductsPage() {
                     ) : (
                       <Link
                         href={product.detailUrl}
-                        className="inline-flex items-center gap-2 px-8 py-3.5 rounded-[10px] font-bold text-xs tracking-wider transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                        className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-[10px] font-bold text-xs tracking-wider transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
                         style={{
                           backgroundColor: product.color,
                           color: "#0f172a"
