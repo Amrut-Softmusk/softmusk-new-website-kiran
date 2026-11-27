@@ -41,7 +41,7 @@ export function siteGraph() {
         name: SITE.legalName,
         alternateName: [SITE.name, "SoftMusk", "Softmusk Info", "Softmusk Belagavi"],
         url: absoluteUrl("/"),
-        logo: { "@type": "ImageObject", url: absoluteUrl("/softmusk-logo.png"), width: 720, height: 226 },
+        logo: { "@type": "ImageObject", url: absoluteUrl("/softmusk-logo-full.png"), width: 720, height: 226 },
         image: absoluteUrl("/opengraph-image"),
         description: `${SITE.about} ${SITE.description}`,
         slogan: SITE.slogan,
@@ -252,7 +252,7 @@ export function jobPostings(roles: readonly JobRole[], posted: { datePosted: str
         "@id": ORG_ID,
         name: SITE.legalName,
         sameAs: absoluteUrl("/"),
-        logo: absoluteUrl("/softmusk-logo.png"),
+        logo: absoluteUrl("/softmusk-logo-full.png"),
       },
       jobLocation: { "@type": "Place", address: postalAddress },
       ...(remote

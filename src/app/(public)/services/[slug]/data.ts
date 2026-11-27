@@ -96,7 +96,7 @@ export const servicesData: Record<string, Service> = {
       "Scalable from single machines to entire factory floors",
     ],
     useCases: [
-      { title: "Manufacturing Plants", description: "Monitor machine health, track OEE, and automate production reporting across multi-line factories.", image: "https://images.unsplash.com/photo-1565787631953-d2c03aadb50e?w=800&q=80&auto=format&fit=crop" },
+      { title: "Manufacturing Plants", description: "Monitor machine health, track OEE, and automate production reporting across multi-line factories.", image: "https://images.unsplash.com/photo-1567789884554-0b844b597180?w=800&q=80&auto=format&fit=crop" },
       { title: "Energy Management", description: "Track power consumption, identify inefficiencies, and automate load balancing across industrial facilities.", image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80&auto=format&fit=crop" },
       { title: "Cold Chain Logistics", description: "Monitor temperature and humidity across refrigerated transport and storage facilities to ensure compliance.", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80&auto=format&fit=crop" },
     ],

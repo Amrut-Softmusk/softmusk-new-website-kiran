@@ -66,7 +66,7 @@ export function PublicFooter() {
               aria-label="Softmusk home"
               className="inline-flex mb-6 rounded-[12px] bg-white px-4 py-3 shadow-lg ring-1 ring-white/10 hover:ring-cyan-500/50 transition"
             >
-              <Image src="/softmusk-logo.png" alt="Softmusk Info Pvt. Ltd." width={720} height={226} className="h-14 w-auto object-contain" />
+              <Image src="/softmusk-logo-full.png" alt="Softmusk Info Pvt. Ltd." width={720} height={226} className="h-14 w-auto object-contain" />
             </Link>
             <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-sm mb-8">{SITE.about}</p>
 
